@@ -1,0 +1,724 @@
+/* ==========================================
+   1. VARIABLES & THEMES
+   ========================================== */
+:root {
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --accent: #06b6d4;
+    --border-color: #e2e8f0;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --error: #ef4444;
+}
+
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    --bg-color: #0b0f19;
+    --card-bg: #1e293b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --border-color: #334155;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================
+   2. GLOBAL STYLES & RESET
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-main);
+    transition: background 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+section {
+    padding: 100px 10%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    margin: 10px auto 0 auto;
+    border-radius: 2px;
+}
+
+/* Common Button */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* ==========================================
+   3. ADVANCED FEATURES (UI Utilities)
+   ========================================== */
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    width: 0%;
+    z-index: 1001;
+    transition: width 0.1s ease-out;
+}
+
+#back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: -60px;
+    width: 45px;
+    height: 45px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.4s ease, background 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#back-to-top.show {
+    right: 30px;
+}
+
+#back-to-top:hover {
+    background: var(--primary-hover);
+}
+
+/* ==========================================
+   4. HEADER & NAVBAR
+   ========================================== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: padding 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.header.sticky {
+    padding: 1rem 10%;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .header.sticky {
+    background: rgba(11, 15, 25, 0.8);
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.logo span { color: var(--primary); }
+
+.navbar a {
+    font-size: 1rem;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 2rem;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.navbar a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.navbar a:hover::after,
+.navbar a.active::after {
+    width: 100%;
+}
+
+.navbar a.active {
+    color: var(--primary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+.menu-icon {
+    display: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+/* ==========================================
+   5. HERO SECTION
+   ========================================== */
+.hero-section {
+    position: relative; /* Allows the background image to position itself absolutely behind everything else */
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Keeps the blurred edges from spilling out of the section box */
+}
+
+/* ⬇️ This rule controls the full-screen background image resizing, fading, and blurring ⬇️ */
+.hero-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the wide 4K wallpaper stretches to cover the screen perfectly without distortion */
+    z-index: 1; /* Places the picture underneath your text layer */
+    
+    /* CONTROL CONTRAST / BLUR / FADE HERE */
+    filter: blur(6px) opacity(0.35); /* Adjust 6px to change blur depth; change 0.35 to adjust the fade strength */
+    transform: scale(1.05); /* Slight zoom prevents raw unblurred white borders at the outer edges of the screen */
+}
+
+/* Ensures your text layout stays sharp and visible over the blurred background background */
+.hero-content {
+    position: relative;
+    z-index: 2; /* Forces text to layer on top of the z-index 1 background image */
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero-content h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+}
+
+.hero-content .highlight {
+    color: var(--primary);
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    color: var(--text-muted);
+}
+
+.cursor {
+    display: inline-block;
+    width: 3px;
+    background-color: var(--text-main);
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ==========================================
+   6. ABOUT SECTION
+   ========================================== */
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.skill-badge {
+    background: var(--card-bg);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* ==========================================
+   6.5 EDUCATION SECTION
+   ========================================== */
+.education-container {
+    max-width: 750px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.education-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.education-card:hover {
+    transform: translateY(-5px);
+}
+
+.edu-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 1.5rem auto;
+}
+
+.education-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+}
+
+.edu-subtitle {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.2rem;
+}
+
+.edu-description {
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-size: 1.05rem;
+}
+
+/* ==========================================
+   7. PROJECTS SECTION
+   ========================================== */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+.project-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .project-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.project-image {
+    height: 200px;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+}
+
+.project-info {
+    padding: 1.5rem;
+}
+
+.project-info h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.project-info p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.project-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-link i {
+    transition: transform 0.2s;
+}
+
+.project-card:hover .project-link i {
+    transform: translateX(5px);
+}
+
+/* ==========================================
+   8. CONTACT SECTION & MODERN UI FORM
+   ========================================== */
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: -2rem;
+    margin-bottom: 4rem;
+    font-size: 1.1rem;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    align-items: start;
+}
+
+/* Info Side Cards */
+.contact-info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.info-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateX(5px);
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.info-details h4 {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.2rem;
+}
+
+.info-details p, 
+.info-details a {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Contact Card Embedded Social Micro-Layout */
+.card-socials {
+    display: flex;
+    gap: 1.4rem;
+    margin-top: 0.4rem;
+}
+
+.card-socials a {
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.card-socials a:hover {
+    transform: translateY(-3px);
+}
+
+/* Interactive Platform Transitions */
+.card-socials a[aria-label="Facebook"]:hover { color: #1877f2; }
+.card-socials a[aria-label="Instagram"]:hover { color: #e1306c; }
+.card-socials a[aria-label="Telegram"]:hover { color: #229ed9; }
+
+/* Contact Container Layout Configurations */
+.contact-container {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+#contact-form input, 
+#contact-form textarea {
+    width: 100%;
+    padding: 1.2rem 1rem 0.8rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Interactive Floating Labels Mechanics */
+.form-group label {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    pointer-events: none;
+    font-size: 1rem;
+}
+
+#contact-form input:focus ~ label,
+#contact-form input:not(:placeholder-shown) ~ label,
+#contact-form textarea:focus ~ label,
+#contact-form textarea:not(:placeholder-shown) ~ label {
+    top: 0.3rem;
+    left: 0.8rem;
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+#contact-form input:focus, 
+#contact-form textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Form Invalid Visual States */
+.form-group.invalid input,
+.form-group.invalid textarea {
+    border-color: var(--error);
+}
+
+.form-group.invalid input:focus,
+.form-group.invalid textarea:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.form-group.invalid label {
+    color: var(--error) !important;
+}
+
+.error-msg {
+    color: var(--error);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: -1.3rem;
+    left: 0.2rem;
+    display: none;
+}
+
+.form-group.invalid .error-msg {
+    display: block;
+}
+
+.btn-submit {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+}
+
+/* ==========================================
+   9. FOOTER
+   ========================================== */
+.footer {
+    padding: 2rem 10%;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer p { color: var(--text-muted); }
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icons a {
+    color: var(--text-muted);
+    font-size: 1.3rem;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.social-icons a:hover {
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* ==========================================
+   10. SCROLL ANIMATIONS
+   ========================================== */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.fade-in.appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================
+   11. MOBILE RESPONSIVENESS
+   ========================================== */
+@media (max-width: 992px) {
+    section { padding: 80px 5%; }
+    .header { padding: 1.5rem 5%; }
+    .header.sticky { padding: 1rem 5%; }
+    .hero-content h1 { font-size: 2.8rem; }
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-icon { display: block; }
+    
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background: var(--bg-color);
+        display: flex;
+        flex-direction: column;
+        padding-top: 3rem;
+        gap: 2rem;
+        transition: left 0.4s ease;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .navbar.open { left: 0; }
+    .navbar a { margin: 0 auto; font-size: 1.2rem; }
+    
+    .footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
