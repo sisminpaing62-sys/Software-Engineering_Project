@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
        ========================================== */
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeIcon = themeToggleBtn.querySelector("i");
-    const savedTheme = localStorage.getItem("theme") || "dark";
+    const savedTheme = localStorage.getItem("theme") || "light";
     
     document.documentElement.setAttribute("data-theme", savedTheme);
     updateThemeIcon(savedTheme);
